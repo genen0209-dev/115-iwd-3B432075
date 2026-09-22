@@ -1,0 +1,361 @@
+```css
+/* =========================
+   基本設定
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: "Microsoft JhengHei", Arial, sans-serif;
+    background-color: #15173D;
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+/* =========================
+   Header
+========================= */
+
+header {
+    text-align: center;
+    padding: 40px 20px 30px;
+    background-color: #15173D;
+}
+
+header h1 {
+    margin: 0;
+    color: #00D9A3;
+    font-size: 42px;
+}
+
+header p {
+    margin: 10px 0 0;
+    color: #bfc2d9;
+    font-size: 18px;
+}
+
+/* =========================
+   Navigation
+========================= */
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    padding: 16px 20px;
+    background-color: #1d2050;
+    border-bottom: 1px solid rgba(0, 217, 163, 0.25);
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #00D9A3;
+}
+
+/* =========================
+   Main
+========================= */
+
+main {
+    width: 90%;
+    max-width: 900px;
+    margin: 50px auto;
+}
+
+/* =========================
+   個人介紹
+========================= */
+
+.profile {
+    padding: 50px;
+    text-align: center;
+    background-color: #1d2050;
+    border: 1px solid rgba(0, 217, 163, 0.25);
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+}
+
+.avatar {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 30px;
+    border-radius: 50%;
+    background-color: #777777;
+    border: 5px solid #00D9A3;
+    overflow: hidden;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile h2,
+.registration h2,
+.menu h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #00D9A3;
+    font-size: 30px;
+}
+
+.introduction {
+    max-width: 700px;
+    margin: auto;
+    padding: 25px;
+    background-color: rgba(21, 23, 61, 0.7);
+    border-left: 4px solid #00D9A3;
+    border-radius: 10px;
+    text-align: left;
+}
+
+.introduction strong {
+    color: #00D9A3;
+}
+
+/* =========================
+   目錄頁
+========================= */
+
+.menu {
+    text-align: center;
+}
+
+.menu-item {
+    margin: 25px 0;
+    padding: 30px;
+    background-color: #1d2050;
+    border: 1px solid rgba(0, 217, 163, 0.25);
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.menu-item:hover {
+    transform: translateY(-5px);
+    border-color: #00D9A3;
+}
+
+.menu-item h3 {
+    color: #00D9A3;
+    margin-top: 0;
+}
+
+.menu-item a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #00D9A3;
+    color: #15173D;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.menu-item a:hover {
+    opacity: 0.85;
+}
+
+/* =========================
+   聯絡 / 活動報名
+========================= */
+
+.registration {
+    padding: 45px;
+    background-color: #1d2050;
+    border: 1px solid rgba(0, 217, 163, 0.25);
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+}
+nav a.active {
+    color: #00D9A3;
+    cursor: default;
+    pointer-events: none;
+}
+
+.registration > p {
+    color: #bfc2d9;
+}
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 13px 15px;
+    border: 2px solid #44476d;
+    border-radius: 8px;
+    background-color: #15173D;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #00D9A3;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background-color: #00D9A3;
+    color: #15173D;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+/* =========================
+   Footer
+========================= */
+
+footer {
+    margin-top: 60px;
+    padding: 25px;
+    text-align: center;
+    background-color: #1d2050;
+    color: #bfc2d9;
+}
+
+footer span {
+    color: #00D9A3;
+}
+
+/* =========================
+   RWD：平板
+========================= */
+
+@media (max-width: 768px) {
+
+    header {
+        padding: 30px 20px;
+    }
+
+    header h1 {
+        font-size: 34px;
+    }
+
+    nav {
+        gap: 20px;
+    }
+
+    main {
+        width: 92%;
+        margin: 35px auto;
+    }
+
+    .profile {
+        padding: 35px 25px;
+    }
+
+    .registration {
+        padding: 35px 25px;
+    }
+
+    .avatar {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+/* =========================
+   RWD：手機
+========================= */
+
+@media (max-width: 480px) {
+
+    header h1 {
+        font-size: 28px;
+    }
+
+    header p {
+        font-size: 15px;
+    }
+
+    /* 手機版導覽列 */
+    nav {
+        flex-direction: column;
+        gap: 12px;
+        padding: 15px;
+    }
+
+    nav a {
+        width: 100%;
+        text-align: center;
+        padding: 8px;
+    }
+
+    main {
+        width: 94%;
+        margin: 25px auto;
+    }
+
+    .profile {
+        padding: 30px 18px;
+        border-radius: 15px;
+    }
+
+    .registration {
+        padding: 30px 18px;
+        border-radius: 15px;
+    }
+
+    .avatar {
+        width: 130px;
+        height: 130px;
+    }
+
+    .profile h2,
+    .registration h2,
+    .menu h2 {
+        font-size: 25px;
+    }
+
+    .introduction {
+        padding: 20px;
+        font-size: 15px;
+    }
+
+    .menu-item {
+        padding: 25px 18px;
+    }
+
+    .form-group input,
+    .form-group select {
+        font-size: 15px;
+    }
+
+    footer {
+        font-size: 14px;
+    }
+}
+
