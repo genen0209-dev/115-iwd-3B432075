@@ -55,6 +55,11 @@ function addProduct() {
   category.value = '全部'
   notice.value = `已新增「${title}」的模擬刊登。`
 }
+function removeProduct(product) {
+  products.value = products.value.filter((item) => item.id !== product.id)
+  favorites.value = favorites.value.filter((id) => id !== product.id)
+  notice.value = '已移除「' + product.title + '」的刊登。'
+}
 function showProduct(product) {
   notice.value = product.available
     ? `「${product.title}」是課堂展示資料，尚未連接聯絡或交易服務。`
@@ -96,7 +101,7 @@ function showProduct(product) {
       <div class="category-tabs" role="group" aria-label="物品分類篩選"><button v-for="item in categories" :key="item" type="button" :class="{ selected: category === item }" @click="category = item">{{ item }}<span v-if="item === '全部'"> {{ products.length }}</span></button></div>
 
       <div class="product-grid" v-if="visibleProducts.length">
-        <ProductCard v-for="(product, index) in visibleProducts" :key="product.id" :product="product" :index="index + 1" :favorite="favorites.includes(product.id)" @toggle-favorite="toggleFavorite" @view-product="showProduct" />
+        <ProductCard v-for="(product, index) in visibleProducts" :key="product.id" :product="product" :index="index + 1" :favorite="favorites.includes(product.id)" @toggle-favorite="toggleFavorite" @view-product="showProduct" @delete-product="removeProduct" />
       </div>
       <div v-else class="empty-state"><span>⌕</span><h3>沒有找到這件好物</h3><p>換個關鍵字，或看看其他分類。</p><ActionButton label="清除篩選" variant="secondary" @click="query = ''; category = '全部'" /></div>
 
@@ -104,7 +109,7 @@ function showProduct(product) {
       <p v-if="notice" class="notice" role="status"><span>✓</span>{{ notice }}</p>
     </section>
 
-    <section id="how-it-works" class="note-strip"><div><p class="eyebrow">A SMALLER FOOTPRINT</p><h2>讓好物繼續被好好使用。</h2></div><p>商品卡片和操作按鈕以 Vue 元件重用。搜尋、分類、排序、收藏和新增刊登由父層管理；所有商品都是模擬資料，頁面不會進行聯絡、付款或實際交易。</p><span class="note-star">↻</span></section>
+    <section id="how-it-works" class="note-strip"><div><p class="eyebrow">A SMALLER FOOTPRINT</p><h2>讓好物繼續被好好使用。</h2></div><p>商品卡片和操作按鈕以 Vue 元件重用。搜尋、分類、排序、收藏、新增與刪除刊登由父層管理；所有商品都是模擬資料，頁面不會進行聯絡、付款或實際交易。</p><span class="note-star">↻</span></section>
     <footer><a class="brand" href="#top"><span class="brand-mark">拾</span><span>拾物<span class="brand-en"> / CAMPUS REUSE</span></span></a><span>互動式網頁設計｜Vue 元件化專題</span><span>給好物一個新故事</span></footer>
   </main>
 </template>
