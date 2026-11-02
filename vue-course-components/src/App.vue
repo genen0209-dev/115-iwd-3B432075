@@ -13,6 +13,9 @@ const category = ref('全部')
 const sortOrder = ref('recommended')
 const favorites = ref([])
 const newProductTitle = ref('')
+const newProductCategory = ref('生活')
+const newProductDesc = ref('')
+const selectedProduct = ref(null)
 const notice = ref('')
 const categories = ['全部', '書籍', '3C', '生活']
 
@@ -35,22 +38,26 @@ function toggleFavorite(productId) {
 }
 function addProduct() {
   const title = newProductTitle.value.trim()
-  if (!title) {
-    notice.value = '先輸入物品名稱，就能新增一筆模擬刊登。'
+  const desc = newProductDesc.value.trim()
+  if (!title || !desc) {
+    notice.value = '請填寫物品名稱和商品介紹，再新增刊登。'
     return
   }
+  const artByCategory = { 書籍: 'book', '3C': 'keyboard', 生活: 'new' }
   products.value.unshift({
     id: `item-${Date.now()}`,
     title,
-    desc: '這是一筆新加入的模擬刊登，可用來展示父層資料更新。',
+    desc,
     price: 250,
     tags: ['新上架', '模擬刊登'],
-    category: '生活',
+    category: newProductCategory.value,
     available: true,
-    art: 'new',
+    art: artByCategory[newProductCategory.value] || 'new',
     artLabel: 'A NEW FIND',
   })
   newProductTitle.value = ''
+  newProductCategory.value = '生活'
+  newProductDesc.value = ''
   query.value = ''
   category.value = '全部'
   notice.value = `已新增「${title}」的模擬刊登。`
@@ -61,9 +68,10 @@ function removeProduct(product) {
   notice.value = '已移除「' + product.title + '」的刊登。'
 }
 function showProduct(product) {
-  notice.value = product.available
-    ? `「${product.title}」是課堂展示資料，尚未連接聯絡或交易服務。`
-    : `「${product.title}」已售出，暫停刊登。`
+  selectedProduct.value = product
+}
+function closeProductDetails() {
+  selectedProduct.value = null
 }
 </script>
 
@@ -105,11 +113,24 @@ function showProduct(product) {
       </div>
       <div v-else class="empty-state"><span>⌕</span><h3>沒有找到這件好物</h3><p>換個關鍵字，或看看其他分類。</p><ActionButton label="清除篩選" variant="secondary" @click="query = ''; category = '全部'" /></div>
 
-      <form class="add-product" @submit.prevent="addProduct"><div><span class="add-icon">＋</span><strong>刊登一件模擬好物</strong><p>新增資料只會在這個課堂展示頁中顯示。</p></div><div class="add-controls"><input v-model="newProductTitle" type="text" placeholder="輸入物品名稱" aria-label="新物品名稱" /><ActionButton label="新增刊登" type="submit" /></div></form>
+      <form class="add-product" @submit.prevent="addProduct"><div class="add-intro"><span class="add-icon">＋</span><strong>刊登一件模擬好物</strong><p>填寫名稱、分類與介紹，新增資料只會在這個課堂展示頁中顯示。</p></div><div class="add-fields"><label>物品名稱<input v-model="newProductTitle" type="text" placeholder="例如：我的二手筆記本" aria-label="新物品名稱" required maxlength="40" /></label><label>商品分類<select v-model="newProductCategory" aria-label="新商品分類"><option value="書籍">書籍</option><option value="3C">3C</option><option value="生活">生活</option></select></label><label class="description-field">商品介紹<textarea v-model="newProductDesc" placeholder="描述物品狀況、特色或配件…" aria-label="商品介紹" required maxlength="160" rows="2"></textarea></label><ActionButton label="新增刊登" type="submit" /></div></form>
       <p v-if="notice" class="notice" role="status"><span>✓</span>{{ notice }}</p>
     </section>
 
-    <section id="how-it-works" class="note-strip"><div><p class="eyebrow">A SMALLER FOOTPRINT</p><h2>讓好物繼續被好好使用。</h2></div><p>商品卡片和操作按鈕以 Vue 元件重用。搜尋、分類、排序、收藏、新增與刪除刊登由父層管理；所有商品都是模擬資料，頁面不會進行聯絡、付款或實際交易。</p><span class="note-star">↻</span></section>
+    <div v-if="selectedProduct" class="detail-backdrop" @click.self="closeProductDetails" @keydown.esc="closeProductDetails">
+      <section class="detail-dialog" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+        <button class="detail-close" type="button" aria-label="關閉商品介紹" @click="closeProductDetails">×</button>
+        <div class="detail-art" :class="`art-${selectedProduct.art}`" aria-hidden="true"><span>{{ selectedProduct.artLabel }}</span><b>拾</b></div>
+        <p class="eyebrow">商品介紹 · {{ selectedProduct.category }}</p>
+        <h2 id="detail-title">{{ selectedProduct.title }}</h2>
+        <p class="detail-description">{{ selectedProduct.desc }}</p>
+        <div class="detail-meta"><span>參考售價</span><strong>NT$ {{ selectedProduct.price.toLocaleString('zh-TW') }}</strong><span class="tag" v-for="tag in selectedProduct.tags" :key="tag">{{ tag }}</span></div>
+        <p class="detail-note">此為課堂展示資料，尚未連接聯絡、付款或實際交易服務。</p>
+        <ActionButton label="知道了" @click="closeProductDetails" />
+      </section>
+    </div>
+
+    <section id="how-it-works" class="note-strip"><div><p class="eyebrow">A SMALLER FOOTPRINT</p><h2>讓好物繼續被好好使用。</h2></div><p>商品卡片和操作按鈕以 Vue 元件重用。搜尋、分類、排序、收藏、新增、商品介紹與刪除刊登由父層管理；所有商品都是模擬資料，頁面不會進行聯絡、付款或實際交易。</p><span class="note-star">↻</span></section>
     <footer><a class="brand" href="#top"><span class="brand-mark">拾</span><span>拾物<span class="brand-en"> / CAMPUS REUSE</span></span></a><span>互動式網頁設計｜Vue 元件化專題</span><span>給好物一個新故事</span></footer>
   </main>
 </template>
